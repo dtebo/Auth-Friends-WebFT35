@@ -42,7 +42,7 @@ const FriendsList = props => {
             <MUI.Button
                 className='app-button'
                 component={Link}
-                to='/friends/add'
+                to='/friends/form'
             >
                 Add Friend
             </MUI.Button>

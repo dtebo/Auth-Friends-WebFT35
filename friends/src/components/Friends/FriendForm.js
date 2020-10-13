@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
+
+import './Friends.css';
+
 class FriendForm extends Component{
     state = {
         isEditing: false,
@@ -10,6 +14,40 @@ class FriendForm extends Component{
         },
         error: ''
     };
+
+    componentDidMount(){
+        const { id } = this.props.match.params;
+
+        if(id){
+            //if we are editing, we need to get the friend data
+            this.setState({
+                ...this.state,
+                isEditing: true
+            });
+
+            axiosWithAuth()
+                .get('/friends/${id}')
+                .then(res => {
+                    console.log('FriendForm: DT: componentDidMount: ', res);
+
+                    this.setState({
+                        ...this.state,
+                        formData: {
+                            ...res.data
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.error('FriendForm: DT: componentDidMount: Error: ', err);
+                });
+        }
+        else{
+            this.setState({
+                ...this.state,
+                isEditing: false
+            });
+        }
+    }
 
     handleChange = e => {
         this.setState({
@@ -28,32 +66,41 @@ class FriendForm extends Component{
     render(){
         return(
             <>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor='name'>Name:</label>
-                    <input
-                        type='text'
-                        value={this.state.name}
-                        onChange={this.handleChange}
-                        id='name'
-                        name='name'
-                    />
-                    <label htmlFor='age'>Age:</label>
-                    <input
-                        type='text'
-                        value={this.state.age}
-                        onChange={this.handleChange}
-                        id='age'
-                        name='age'
-                    />
-                    <label htmlFor='email'>Email:</label>
-                    <input
-                        type='text'
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                        id='email'
-                        name='email'
-                    />
-                    <button>{this.state.isEditing ? 'Update' : 'Add'}</button>
+                <form 
+                    className='friend-form'
+                    onSubmit={this.handleSubmit}
+                >
+                    <section className='group'>
+                        <label htmlFor='name'>Name:</label>
+                        <input
+                            type='text'
+                            value={this.state.name}
+                            onChange={this.handleChange}
+                            id='name'
+                            name='name'
+                        />
+                    </section>
+                    <section className='group'>
+                        <label htmlFor='age'>Age:</label>
+                        <input
+                            type='text'
+                            value={this.state.age}
+                            onChange={this.handleChange}
+                            id='age'
+                            name='age'
+                        />
+                    </section>
+                    <section className='group'>
+                        <label htmlFor='email'>Email:</label>
+                        <input
+                            type='text'
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                            id='email'
+                            name='email'
+                        />
+                    </section>
+                    <button className='app-button'>{this.state.isEditing ? 'Update' : 'Add'}</button>
                 </form>
             </>
         )
