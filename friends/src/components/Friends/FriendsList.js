@@ -7,6 +7,8 @@ import Friend from './Friend';
 
 import * as MUI from '../../material-ui';
 
+import './Friends.css';
+
 const FriendsList = props => {
     const [friends, setFriends] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
