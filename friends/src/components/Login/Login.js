@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { axiosWithAuth } from '../../utils/axiosWithAuth';
+
 class Login extends Component{
     state = {
         credentials: {
@@ -20,8 +22,17 @@ class Login extends Component{
 
     handleSubmit = e => {
         e.preventDefault();
+
+        axiosWithAuth()
+            .post('/login', this.state.credentials)
+            .then(res => {
+                console.log('Login: DT: handleSubmit: ', res.data);
+                localStorage.setItem('token', res.data.payload);
+                this.props.history.push('/protected');
+            })
+            .catch(err => console.error('Login: DT: handleSubmit: Error: ', err));
     }
-    
+
     render(){
         return(
             <>

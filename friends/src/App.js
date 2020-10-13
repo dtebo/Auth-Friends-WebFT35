@@ -5,6 +5,8 @@ import './App.css';
 import FriendsList from './components/Friends/FriendsList';
 import Login from './components/Login/Login';
 
+import PrivateRoute from './components/PrivateRoute';
+
 function App() {
   return (
     <Router>
