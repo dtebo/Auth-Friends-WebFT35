@@ -1,0 +1,24 @@
+.friend p{
+    font-size: 2rem;
+}
+
+.friends-list{
+    margin: 20px auto;
+    font-size: 2rem;
+    width: 600px;
+}
+
+/* Friend Form Styles */
+.friend-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 70%;
+    font-size: 2rem;
+}
+
+.friend-form .group{
+    margin: 10px;
+}
