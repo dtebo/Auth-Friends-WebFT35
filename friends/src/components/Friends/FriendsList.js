@@ -31,7 +31,7 @@ const FriendsList = props => {
                 console.error('FriendsList: DT: useEffect: Error: ', err);
                 setIsLoading(false);
             });
-    }, [])
+    },[])
 
     return(
         <div className='friends-list'>

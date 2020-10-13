@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { withRouter } from 'react-router-dom';
+
 import { axiosWithAuth } from '../../utils/axiosWithAuth';
 
 import './Friends.css';
@@ -26,7 +28,7 @@ class FriendForm extends Component{
             });
 
             axiosWithAuth()
-                .get('/friends/${id}')
+                .get(`/friends/${id}`)
                 .then(res => {
                     console.log('FriendForm: DT: componentDidMount: ', res);
 
@@ -61,6 +63,27 @@ class FriendForm extends Component{
 
     handleSubmit = e => {
         e.preventDefault();
+
+        if(this.state.isEditing){
+            axiosWithAuth()
+                .put(`/friends/${this.state.formData.id}`, this.state.formData)
+                .then(res => {
+                    console.log('FriendForm: DT: handleSubmit: Editing: ', res);
+
+                    this.props.history.push('/protected');
+                })
+                .catch(err => console.error('FriendForm: DT: handleSubmit: Editing: Error: ', err));
+        }
+        else{
+            axiosWithAuth()
+                .post(`/friends`, this.state.formData)
+                .then(res => {
+                    console.log('FriendForm: DT: handleSubmit: Adding: ', res);
+
+                    this.props.history.push('/protected');
+                })
+                .catch(err => console.error('FriendForm: DT: handleSubmit: Adding: Error: ', err));
+        }
     };
 
     render(){
@@ -74,7 +97,7 @@ class FriendForm extends Component{
                         <label htmlFor='name'>Name:</label>
                         <input
                             type='text'
-                            value={this.state.name}
+                            value={this.state.formData.name}
                             onChange={this.handleChange}
                             id='name'
                             name='name'
@@ -84,7 +107,7 @@ class FriendForm extends Component{
                         <label htmlFor='age'>Age:</label>
                         <input
                             type='text'
-                            value={this.state.age}
+                            value={this.state.formData.age}
                             onChange={this.handleChange}
                             id='age'
                             name='age'
@@ -94,7 +117,7 @@ class FriendForm extends Component{
                         <label htmlFor='email'>Email:</label>
                         <input
                             type='text'
-                            value={this.state.email}
+                            value={this.state.formData.email}
                             onChange={this.handleChange}
                             id='email'
                             name='email'
@@ -107,4 +130,4 @@ class FriendForm extends Component{
     }
 };
 
-export default FriendForm;
+export default withRouter(FriendForm);

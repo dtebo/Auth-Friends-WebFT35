@@ -24,8 +24,9 @@ function App() {
         </header>
         <Switch>
           <PrivateRoute exact path='/protected' component={FriendsList} />
-          <PrivateRoute path='/friends/form' component={FriendForm} />
+          <PrivateRoute exact path='/friends/form' component={FriendForm} />
           <PrivateRoute path='/friends/form/:id' component={FriendForm} />
+          <Route path='/login' component={Login} />
           <Route component={Login} />
         </Switch>
       </div>
